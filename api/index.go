@@ -1,9 +1,6 @@
 package handler
 
 import (
-	"gofiber-marketplace/src/configs"
-	"gofiber-marketplace/src/helpers"
-	"gofiber-marketplace/src/routes"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,13 +19,13 @@ func handler() http.HandlerFunc {
 	// }
 	app := fiber.New()
 
-	configs.InitDB()
-	helpers.Migration()
-	routes.Router(app)
+	// configs.InitDB()
+	// helpers.Migration()
+	// routes.Router(app)
 
-	// app.Get("/", func(c *fiber.Ctx) error {
-	// 	return c.SendString("Hello, This is API for Blanja by Raihan Yusuf from Codecraft")
-	// })
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, This is API for Blanja by Raihan Yusuf from Codecraft")
+	})
 
 	return adaptor.FiberApp(app)
 }
