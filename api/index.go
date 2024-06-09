@@ -1,12 +1,10 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
-	"github.com/joho/godotenv"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -16,9 +14,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handler() http.HandlerFunc {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// if err := godotenv.Load(); err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 	app := fiber.New()
 
 	// configs.InitDB()
