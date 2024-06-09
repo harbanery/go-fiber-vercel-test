@@ -31,10 +31,6 @@ func main() {
 	helpers.Migration()
 	routes.Router(app)
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, This is API for Blanja by Raihan Yusuf from Codecraft")
-	})
-
 	if err := app.Listen(":3000"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
