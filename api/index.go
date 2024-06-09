@@ -63,7 +63,7 @@ func getAllProducts(c *fiber.Ctx) error {
 
 	// Mengambil data produk dari database
 	var products []*Product
-	if result := db.Find(&products); result.Error != nil {
+	if result := db.Limit(5).Offset(0).Find(&products); result.Error != nil {
 		// Jika ada kesalahan saat mengambil data, kembalikan respons error
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Failed to fetch products",
