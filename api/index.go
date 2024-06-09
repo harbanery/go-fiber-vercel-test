@@ -46,22 +46,33 @@ func handler() http.HandlerFunc {
 }
 
 func getAllProducts(c *fiber.Ctx) error {
-
+	// Mendapatkan URL koneksi database dari environment variable
 	url := os.Getenv("URL")
-	var err error
+
+	// Membuat koneksi database
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 	if err != nil {
-		panic("failed to connect database")
+		// Jika koneksi gagal, kembalikan respons error
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to connect to database",
+		})
 	}
 
+	// Migrate model Product ke database jika belum ada
 	db.AutoMigrate(&Product{})
 
+	// Mengambil data produk dari database
 	var products []*Product
-	results := db.Find(&products)
+	if result := db.Find(&products); result.Error != nil {
+		// Jika ada kesalahan saat mengambil data, kembalikan respons error
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to fetch products",
+		})
+	}
 
+	// Mengembalikan data produk dalam respons JSON
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"status":     "success",
-		"statusCode": 200,
-		"data":       results,
+		"status": "success",
+		"data":   products,
 	})
 }
